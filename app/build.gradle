@@ -20,9 +20,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.insider.in/home\"")
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", "\"https://api.insider.in/home\"")
         }
     }
     compileOptions {
@@ -54,7 +58,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$support_library_version"
 
     // CardView
-    implementation "androidx.cardview:cardview:$support_library_version"
+    implementation "androidx.cardview:cardview:$cardview_library_version"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
