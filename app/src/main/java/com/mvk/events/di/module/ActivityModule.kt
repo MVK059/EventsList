@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mvk.events.data.repository.EventRepository
 import com.mvk.events.ui.base.BaseActivity
 import com.mvk.events.ui.home.MainViewModel
+import com.mvk.events.ui.home.event.EventAdapter
 import com.mvk.events.utils.ViewModelProviderFactory
 import com.mvk.events.utils.navigation.NavigationController
 import com.mvk.events.utils.network.NetworkHelper
@@ -23,6 +24,9 @@ class ActivityModule(private val activity: BaseActivity<*, *>) {
 
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(activity)
+
+    @Provides
+    fun provideDummiesAdapter() = EventAdapter(activity.lifecycle, ArrayList())
 
     @Provides
     fun provideNavigationController(): NavigationController =

@@ -19,8 +19,9 @@ class MainViewModel(
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     val loading = MutableLiveData<Boolean>()
-    val posts = MutableLiveData<Resource<Event>>()
+    val event = MutableLiveData<Resource<List<Event>>>()
     private var eventsList = HashMap<String, Event>()
+    private var allEventList = mutableListOf<Event>()
 
     /**
      * Call the API and fetch the data when the activity starts
@@ -34,8 +35,9 @@ class MainViewModel(
                     {
                         eventsList = it.list.masterList
                         Logger.d("checkValue", eventsList.toString())
-                        loading.postValue(false)
                         prepareData()
+                        loading.postValue(false)
+                        event.postValue(Resource.success(allEventList))
                     },
                     {
                         handleNetworkError(it)
@@ -60,6 +62,7 @@ class MainViewModel(
             eventsList.entries.iterator()
         while (it.hasNext()) {
             val pair = it.next()
+            allEventList.add(pair.value)
             println(pair.key + " = " + pair.value.name)
         }
     }

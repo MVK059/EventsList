@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listItemView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp2"
+        android:elevation="@dimen/dp5"
+        android:padding="@dimen/dp10">
+
+        <ImageView
+            android:id="@+id/eventImage"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp120"
+            android:layout_margin="@dimen/dp8"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/eventName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp8"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/eventImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Yoga Classes and Unlimited Yoga Passes" />
+
+        <TextView
+            android:id="@+id/eventVenue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp8"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintStart_toEndOf="@+id/eventImage"
+            app:layout_constraintTop_toBottomOf="@+id/eventName"
+            tools:text="Venue: Yogacara Healing Arts" />
+
+        <TextView
+            android:id="@+id/eventStartTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp8"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/eventImage"
+            app:layout_constraintTop_toBottomOf="@+id/eventVenue"
+            tools:text="Friday, July 19, 2019 11:30:00 AM" />
+
+        <TextView
+            android:id="@+id/eventMinPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp8"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/eventImage"
+            app:layout_constraintTop_toBottomOf="@+id/eventStartTime"
+            tools:text="Min Price: 500" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
