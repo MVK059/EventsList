@@ -4,31 +4,42 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.mvk.events.EventsApplication
 import com.mvk.events.di.component.ActivityComponent
 import com.mvk.events.di.component.DaggerActivityComponent
 import com.mvk.events.di.module.ActivityModule
 import com.mvk.events.utils.display.Toaster
+import com.mvk.events.utils.navigation.NavigationController
 import javax.inject.Inject
 
 /**
  * Reference for generics: https://kotlinlang.org/docs/reference/generics.html
  * Basically BaseActivity will take any class that extends BaseViewModel
  */
-abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
 
     @Inject
     lateinit var viewModel: VM
 
+    lateinit var dataBinding: T
+
+    @Inject
+    lateinit var navigationController: NavigationController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildActivityComponent())
         super.onCreate(savedInstanceState)
-        setContentView(provideLayoutId())
+        viewModel.onCreate()
+        setupDataBinding()
+//        setContentView(provideLayoutId())
         setupObservers()
         setupView(savedInstanceState)
-        viewModel.onCreate()
     }
+
+    fun getViewDataBinding(): T = dataBinding
 
     private fun buildActivityComponent() =
         DaggerActivityComponent
@@ -47,6 +58,12 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         })
     }
 
+    private fun setupDataBinding() {
+        dataBinding = DataBindingUtil.setContentView(this, provideLayoutId())
+        dataBinding.setVariable(provideDataBindingVariable(), viewModel)
+        dataBinding.executePendingBindings()
+    }
+
     fun showMessage(message: String) = Toaster.show(applicationContext, message)
 
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
@@ -58,6 +75,13 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
             supportFragmentManager.popBackStackImmediate()
         else super.onBackPressed()
     }
+
+    /**
+     * Override for set binding variable
+     *
+     * @return variable id
+     */
+    protected abstract fun provideDataBindingVariable(): Int
 
     @LayoutRes
     protected abstract fun provideLayoutId(): Int

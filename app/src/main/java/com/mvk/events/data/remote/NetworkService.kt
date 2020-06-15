@@ -1,20 +1,20 @@
 package com.mvk.events.data.remote
 
+import com.mvk.events.data.model.EventList
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 import javax.inject.Singleton
 
 @Singleton
 interface NetworkService {
 
 
-    /*@POST(Endpoints.DUMMY)
-    fun doDummyCall(
-        @Body request: DummyRequest,
-        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY // default value set when Networking create is called
-    ): Single<DummyResponse>*/
+    @GET(Endpoints.EVENT)
+    fun doEventCall(
+        @Query("norm") norm: Int? = 1,
+        @Query("filterBy") filterBy: String? = "go-out",
+        @Query("city") city: String? = "mumbai"
+    ): Single<EventList>
 
     /*
      * Example to add other headers

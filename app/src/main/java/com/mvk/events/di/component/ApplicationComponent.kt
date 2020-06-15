@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.mvk.events.EventsApplication
 import com.mvk.events.data.remote.NetworkService
+import com.mvk.events.data.repository.EventRepository
 import com.mvk.events.di.ApplicationContext
 import com.mvk.events.di.module.ApplicationModule
 import com.mvk.events.utils.network.NetworkHelper
@@ -53,4 +54,6 @@ interface ApplicationComponent {
     fun getSchedulerProvider(): SchedulerProvider
 
     fun getCompositeDisposable(): CompositeDisposable
+
+    fun getEventRepository(): EventRepository
 }
