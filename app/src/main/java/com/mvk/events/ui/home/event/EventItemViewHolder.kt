@@ -1,13 +1,14 @@
 package com.mvk.events.ui.home.event
 
+import android.os.Build
+import android.text.Html
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.mvk.events.R
 import com.mvk.events.data.model.Event
-import com.mvk.events.data.model.EventList
 import com.mvk.events.di.component.ViewHolderComponent
 import com.mvk.events.ui.base.BaseItemViewHolder
 import com.mvk.events.utils.common.TimeUtils
@@ -31,16 +32,19 @@ class EventItemViewHolder(parent: ViewGroup) :
         })
 
         viewModel.venueName.observe(this, Observer {
-            itemView.eventVenue.text = itemView.eventVenue.context.getString(R.string.venue, it)
+            val textValue = itemView.eventVenue.context.getString(R.string.venue, it)
+            setText(textValue, itemView.eventVenue)
         })
 
         viewModel.showStartTime.observe(this, Observer {
-            itemView.eventStartTime.text =
-                itemView.eventVenue.context.getString(R.string.time, TimeUtils.convertDate(it))
+            val textValue =
+                itemView.eventStartTime.context.getString(R.string.time,  TimeUtils.convertDate(it))
+            setText(textValue, itemView.eventStartTime)
         })
 
         viewModel.minPrice.observe(this, Observer {
-            itemView.eventMinPrice.text = itemView.eventVenue.context.getString(R.string.price, it)
+            val textValue = itemView.eventMinPrice.context.getString(R.string.price, it)
+            setText(textValue, itemView.eventMinPrice)
         })
 
         viewModel.coverImage.observe(this, Observer {
@@ -52,6 +56,14 @@ class EventItemViewHolder(parent: ViewGroup) :
                 glideRequest.into(itemView.eventImage)
             }
         })
+    }
+
+    private fun setText(textValue: String, textView: TextView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.text =  Html.fromHtml(textValue, Html.FROM_HTML_MODE_COMPACT);
+        } else {
+            textView.text =  Html.fromHtml(textValue);
+        }
     }
 
 }

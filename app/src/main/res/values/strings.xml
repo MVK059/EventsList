@@ -8,7 +8,8 @@
     <string name="server_connection_error">Not able to connect, please retry again</string>
     <string name="network_login_again">Please log in again</string>
 
-    <string name="venue">"Venue: %s"</string>
-    <string name="time">"Time: %s"</string>
-    <string name="price">"Min Price: %s"</string>
+<!--    <string name="venue"><b>Venue:</b> %s</string>-->
+    <string name="venue"><![CDATA[<b>Venue: </b> %s]]> </string>
+    <string name="time"><![CDATA[<b>Time: </b> %s]]> </string>
+    <string name="price"><![CDATA[<b>Min Price: </b> ₹%s]]> </string>
 </resources>
