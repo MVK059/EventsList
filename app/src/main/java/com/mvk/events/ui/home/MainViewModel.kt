@@ -2,7 +2,6 @@ package com.mvk.events.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import com.mvk.events.data.model.Event
-import com.mvk.events.data.model.EventList
 import com.mvk.events.data.repository.EventRepository
 import com.mvk.events.ui.base.BaseViewModel
 import com.mvk.events.utils.common.Resource
@@ -27,32 +26,29 @@ class MainViewModel(
      * Call the API and fetch the data when the activity starts
      */
     init {
-        loading.postValue(true)
-        compositeDisposable.addAll(
-            eventRepository.fetchEvents()
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    {
-                        eventsList = it.list.masterList
-                        Logger.d("checkValue", eventsList.toString())
-                        prepareData()
-                        loading.postValue(false)
-                        event.postValue(Resource.success(allEventList))
-                    },
-                    {
-                        handleNetworkError(it)
-                        loading.postValue(false)
-                    }
-                )
-        )
+        if (checkInternetConnectionWithMessage()) {
+            loading.postValue(true)
+            compositeDisposable.addAll(
+                eventRepository.fetchEvents()
+                    .subscribeOn(schedulerProvider.io())
+                    .subscribe(
+                        {
+                            eventsList = it.list.masterList
+                            Logger.d("checkValue", eventsList.toString())
+                            prepareData()
+                            loading.postValue(false)
+                            event.postValue(Resource.success(allEventList))
+                        },
+                        {
+                            handleNetworkError(it)
+                            loading.postValue(false)
+                        }
+                    )
+            )
+        }
     }
 
-    override fun onCreate() {
-        fetchEvents()
-    }
-
-    private fun fetchEvents() {
-    }
+    override fun onCreate() {}
 
     /**
      * Process the data from the API
