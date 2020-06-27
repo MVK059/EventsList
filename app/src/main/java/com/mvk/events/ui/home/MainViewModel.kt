@@ -14,7 +14,7 @@ class MainViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
-    eventRepository: EventRepository
+    private val eventRepository: EventRepository
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     val loading = MutableLiveData<Boolean>()
@@ -26,6 +26,10 @@ class MainViewModel(
      * Call the API and fetch the data when the activity starts
      */
     init {
+        fetchEvents()
+    }
+
+    fun fetchEvents() {
         if (checkInternetConnectionWithMessage()) {
             loading.postValue(true)
             compositeDisposable.addAll(
